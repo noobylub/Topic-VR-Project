@@ -36,10 +36,10 @@
     "aframe-react",
     "webvr"
   ],
-  "author": "Kevin Ngo <kngo@mozilla.com>",
+  "author": "Muhammad Mushoffa  <MuhammadMushoffa22@kingsacademy.edu.jo>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ngokevin/aframe-react-boilerplate/issues"
+    "url": "https://noobylub.github.io/Topic-VR-Project/"
   },
   "homepage": "https://noobylub.github.io/Topic-VR-Project/",
   "devDependencies": {

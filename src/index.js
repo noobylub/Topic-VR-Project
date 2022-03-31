@@ -35,7 +35,9 @@ class App extends React.Component {
   
   //Where I will set up the components
   componentDidMount() {
-    for (let i = 0; i < 101; i++) {
+    console.log("start")
+    this.mainLoop(20);
+    for (let i = 0; i < 201; i++) {
       this.displayRandom.push(
         <Entity
           id="box"
@@ -63,7 +65,7 @@ class App extends React.Component {
           id="box"
           key = {i}
           geometry={{ primitive: "box", width: 0.5, height: 0.5 }}
-          material={{ color: "green", opacity: 1 }}
+          material={{ color: "red", opacity: 1 }}
           position={{
             x: this.randomXpos(10, -10),
             y: this.state.ypos[i],
@@ -116,6 +118,24 @@ class App extends React.Component {
   randomXpos(max, min) {
     return Math.random() * (max - min + 1) + min;
   }
+
+  //main loop 1-60 
+  //each time call method delay 
+  mainLoop(second){
+    for(let i =0;i<second;i++){
+      
+      this.delay();
+      console.log("1 second passed")
+    }
+    console.log("Finished")
+
+  }
+  //simulate one second
+  delay(){
+    for(let i=0;i<100000000;i++){
+    }
+  }
+
 
   //timer function
   timerStart() {
