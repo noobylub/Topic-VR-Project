@@ -82,6 +82,7 @@ class App extends React.Component {
             y: this.state.ypos[i],
             z: this.randomXpos(10, -10),
           }}
+          
           events={{
             click: () => {
               console.log("working");
@@ -257,9 +258,9 @@ class App extends React.Component {
             y: 1,
             z: -1,
           }}
-          events ={{click : () => {
-            this.timerStart.bind(this);
-          }}}
+          events ={{click : 
+            this.timerStart.bind(this)
+          }}
           color="#FAFAF1"
         />
         {this.state.succeed ? " " : this.state.displayData}
