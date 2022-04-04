@@ -2,6 +2,7 @@
   "name": "aframe-react-boilerplate",
   "version": "3.0.1",
   "description": "Boilerplate for building virtual reality experiences with A-Frame and React.",
+  "homepage": "https://noobylub.github.io/Topic-VR-Project/",
   "dependencies": {
     "aframe": "^0.5.0",
     "aframe-animation-component": "^3.2.5",
@@ -19,7 +20,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "publish": "npm run build && gh-pages -d build"
+    "publish": "npm run build && gh-pages -d build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "repository": {
     "type": "git",
@@ -41,7 +44,6 @@
   "bugs": {
     "url": "https://noobylub.github.io/Topic-VR-Project/"
   },
-  "homepage": "https://noobylub.github.io/Topic-VR-Project/",
   "devDependencies": {
     "gh-pages": "^0.12.0"
   }

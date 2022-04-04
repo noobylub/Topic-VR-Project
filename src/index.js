@@ -14,7 +14,7 @@ class App extends React.Component {
     super(props);
     this.displayRandom = [];
     this.findThis = [];
-    
+
     //where the data are
     this.state = {
       remaining: 5,
@@ -26,16 +26,25 @@ class App extends React.Component {
       seconds: 0,
       minuteComp: 0,
       secondComp: 0,
-      succeed : false,
-      ypos: [this.randomXpos(3,1),this.randomXpos(3,1),this.randomXpos(3,1),this.randomXpos(3,1),this.randomXpos(3,1)],
-     
+      succeed: false,
+
+      ycolor: "blue",
+      otherColor: "red",
+      clicked: false,
+
+      ypos: [
+        this.randomXpos(3, 1),
+        this.randomXpos(3, 1),
+        this.randomXpos(3, 1),
+        this.randomXpos(3, 1),
+        this.randomXpos(3, 1),
+      ],
     };
   }
 
-  
   //Where I will set up the components
   componentDidMount() {
-    console.log("start")
+    console.log("start");
     this.mainLoop(20);
     for (let i = 0; i < 201; i++) {
       this.displayRandom.push(
@@ -48,7 +57,7 @@ class App extends React.Component {
           //   to: "360 360 360",
           // }}
           geometry={{ primitive: "box", roughness: 0.5 }}
-          material={{ color: this.state.color, opacity: 0.9 }}
+          material={{ color: this.state.color, opacity: 1.5 }}
           position={{
             x: this.randomXpos(20, -20),
             y: this.randomXpos(3, 1),
@@ -56,16 +65,18 @@ class App extends React.Component {
           }}
         ></Entity>
       );
-     
     }
-    for(let i =0;i<5;i++){
-      
+    for (let i = 0; i < 5; i++) {
       this.findThis.push(
         <Entity
           id="box"
-          key = {i}
-          geometry={{ primitive: "box", width: 0.5, height: 0.5 }}
-          material={{ color: "red", opacity: 1 }}
+          key={i}
+          primitive="a-octahedron"
+          detail={2}
+          radius={0.5}
+         
+      
+          color="red"
           position={{
             x: this.randomXpos(10, -10),
             y: this.state.ypos[i],
@@ -73,29 +84,28 @@ class App extends React.Component {
           }}
           events={{
             click: () => {
-              console.log("working")
-              
-              
-              if(this.state.ypos[i] !== -99){
+              console.log("working");
+
+              if (this.state.ypos[i] !== -99) {
                 this.setState({
-                  remaining : this.state.remaining -1
-                })
-              }
-              else{
+                  remaining: this.state.remaining - 1,
+                });
+                this.changeColor();
+              } else {
                 this.changeColor();
               }
-              if(this.state.remaining === 0){
+              if (this.state.remaining === 0) {
                 this.setState({
-                  minuteComp : this.state.minutes,
+                  minuteComp: this.state.minutes,
                   secondComp: this.state.seconds,
-                  succeed : true
-                })
+                  succeed: true,
+                });
               }
               let array = this.state.ypos;
               array[i] = -99;
               this.setState({
-                ypos : array
-              })
+                ypos: array,
+              });
               console.log(this.state.remaining);
             },
           }}
@@ -119,23 +129,19 @@ class App extends React.Component {
     return Math.random() * (max - min + 1) + min;
   }
 
-  //main loop 1-60 
-  //each time call method delay 
-  mainLoop(second){
-    for(let i =0;i<second;i++){
-      
+  //main loop 1-60
+  //each time call method delay
+  mainLoop(second) {
+    for (let i = 0; i < second; i++) {
       this.delay();
-      console.log("1 second passed")
+      console.log("1 second passed");
     }
-    console.log("Finished")
-
+    console.log("Finished");
   }
   //simulate one second
-  delay(){
-    for(let i=0;i<100000000;i++){
-    }
+  delay() {
+    for (let i = 0; i < 100000000; i++) {}
   }
-
 
   //timer function
   timerStart() {
@@ -158,7 +164,6 @@ class App extends React.Component {
       }
     }, 1000);
   }
-  
 
   render() {
     return (
@@ -202,53 +207,62 @@ class App extends React.Component {
         <Entity particle-system={{ preset: "snow", particleCount: 2000 }} />
 
         {/* Main Text */}
+        {this.state.succeed ? (
+          <Entity
+            text={{
+              value: `You have Completed the challenge at ${
+                this.state.minuteComp
+              } Minute and ${
+                this.state.secondComp > 10
+                  ? `${this.state.secondComp} Seconds`
+                  : `${this.state.secondComp} Second`
+              }`,
+              align: "center",
+            }}
+            position={{ x: 0, y: 2.6, z: -1 }}
+          />
+        ) : (
+          <Entity
+            text={{
+              value: `${this.state.minutes} : ${this.state.seconds}`,
+              align: "center",
+            }}
+            position={{ x: 0, y: 2.6, z: -1 }}
+          />
+        )}
+
+        {/* Instruction text  */}
         <Entity
           text={{
-            value: `You need to find ${this.state.remaining} more red squares`,
+            value: ` ${this.state.remaining} more red squares`,
             align: "center",
           }}
           position={{ x: 0, y: 3, z: -1 }}
         />
         <Entity
           text={{
-            value: `You have ${this.state.minutes} Minute and ${
-              this.state.seconds > 10
-                ? `${this.state.seconds} Seconds`
-                : `${this.state.seconds} Second`
-            }`,
+            value: `Click on the white sphere next to you, and find the odd shapes.  `,
             align: "center",
           }}
-          position={{ x: 0, y: 2.5, z: -1 }}
-        />
-        <Entity
-          text={{
-            value: `You have Completed the challenge at ${this.state.minuteComp} Minute and ${
-              this.state.secondComp > 10
-                ? `${this.state.secondComp} Seconds`
-                : `${this.state.secondComp} Second`
-            }`,
-            align: "center",
-          }}
-          position={{ x: 0, y: 2.3, z: -1 }}
-        />
-        <Entity
-          text={{
-            value: `Find the odd ones  `,
-            align: "center",
-          }}
-          position={{ x: 0, y: 2, z: -1 }}
+          position={{ x: 0, y: 2.8, z: -1 }}
         />
 
         {/* Main shit */}
         <Entity
-          geometry={{ primitive: "circle" }}
-          material={{ color: "red", roughness: 0.5 }}
-          position={{ x: 0, y: 2, z: -1 }}
-          events={{ click: this.timerStart.bind(this) }}
+          primitive="a-octahedron"
+          detail={2}
+          radius={0.5}
+          position={{
+            x: 1,
+            y: 1,
+            z: -1,
+          }}
+          events ={{click : () => {
+            this.timerStart.bind(this);
+          }}}
+          color="#FAFAF1"
         />
-        { this.state.succeed ? " ":
-        
-        this.state.displayData}
+        {this.state.succeed ? " " : this.state.displayData}
         {this.state.toFind}
 
         {/* Below is the camera */}
